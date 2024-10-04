@@ -11,27 +11,39 @@ pipeline {
             }
         }
         stage('Test') {
-    steps {
-        // Activate the virtual environment and run pytest
-        echo 'Activating virtual environment...'
-        sh '''
-            # Switch to bash to use the 'source' command
-            bash -c "
-                source /home/team07/MLIP_Lab6/mlip/bin/activate
-                pip install pytest pandas
-                pytest
-                deactivate
-            "
-        '''
-        // Comment this line after implementing pytest
-        // exit 1 to ensure the pipeline doesn't exit prematurely
-        // exit 1
-    }
-}
+            steps {
+                sh '''#!/bin/bash
+                echo 'Test Step: Setting up environment and running pytest'
 
+                # Check if the virtual environment exists
+                if [ ! -d "./mlip" ]; then
+                    echo "Virtual environment not found, creating it..."
+                    python3 -m venv mlip
+                else
+                    echo "Virtual environment found, activating it..."
+                fi
+
+                # Activate the virtual environment
+                source ./mlip/bin/activate
+
+                # Install dependencies from requirements.txt
+                if [ -f "requirements.txt" ]; then
+                    echo "Installing dependencies from requirements.txt..."
+                    pip install -r requirements.txt
+                else
+                    echo "requirements.txt not found, skipping dependency installation."
+                fi
+
+                # Run pytest in the virtual environment
+                pytest --maxfail=1 --disable-warnings -v
+
+                echo 'pytest finished successfully'
+                '''
+            }
+        }
         stage('Deploy') {
             steps {
-                echo 'In this step, we deploy our porject'
+                echo 'In this step, we deploy our project'
                 echo 'Depending on the context, we may publish the project artifact or upload pickle files'
             }
         }
