@@ -36,6 +36,17 @@ def feature_target_sample(housing_data_sample):
     return (feature_df, target_series)
 
 def test_data_split(feature_target_sample):
+    # Call the data_split function and capture the returned tuple
     return_tuple = data_split(*feature_target_sample)
-    # TODO test if the length of return_tuple is 4
-    raise NotImplemented
+    
+    # Check if the length of the returned tuple is 4 (X_train, X_test, y_train, y_test)
+    assert len(return_tuple) == 4, "The returned tuple should contain 4 elements."
+    
+    # Optionally, you can add assertions to check if each element in the tuple has the expected shape
+    X_train, X_test, y_train, y_test = return_tuple
+
+    # Check if the number of rows in X_train and y_train are equal
+    assert X_train.shape[0] == len(y_train), "X_train and y_train should have the same number of rows."
+    
+    # Check if the number of rows in X_test and y_test are equal
+    assert X_test.shape[0] == len(y_test), "X_test and y_test should have the same number of rows."
