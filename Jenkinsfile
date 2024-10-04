@@ -12,18 +12,17 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh '''#!/bin/bash
-                echo 'Test Step: We run testing tool like pytest here'
+                // Activate the virtual environment
+                    echo 'Activating virtual environment...'
+                    sh '''
+                        source /path/to/your/venv/bin/activate
+                        pytest
+                        deactivate
+                    '''
 
-                # TODO fill out the path to conda here
-                # sudo /PATH/TO/CONDA init
-
-                # TODO Complete the command to run pytest
-                # sudo /PATH/TO/CONDA run -n <Envinronment Name> <Command you want to run>
-
-                echo 'pytest not runned'
-                exit 1 #comment this line after implementing Jenkinsfile
-                '''
+                    // Comment this line after implementing pytest
+                    // exit 1 to ensure the pipeline doesn't exit prematurely
+                    // exit 1
 
             }
         }
