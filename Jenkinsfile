@@ -17,7 +17,7 @@ pipeline {
         sh '''
             # Switch to bash to use the 'source' command
             bash -c "
-                source /path/to/your/venv/bin/activate
+                source /home/team07/MLIP_Lab6/mlip/bin
                 pytest
                 deactivate
             "
